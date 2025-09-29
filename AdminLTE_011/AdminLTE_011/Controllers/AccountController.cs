@@ -15,8 +15,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password)
     {
-        // Untuk tugas ini, kita tentukan username & password yang benar secara manual
-        if (username == "ardan@gmail.com" && password == "123")
+        if (username == "ardan@gmail.com" && password == "1")
         {
             var claims = new List<Claim>
             {
@@ -28,9 +27,21 @@ public class AccountController : Controller
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
             await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+
             return RedirectToAction("Index", "Dashboard");
         }
+
         ViewData["ErrorMessage"] = "Username atau Password salah.";
         return View();
+    }
+
+    // TAMBAHKAN METHOD BARU DI BAWAH INI
+    public async Task<IActionResult> Logout()
+    {
+        // Perintah ini akan menghapus cookie login pengguna
+        await HttpContext.SignOutAsync("MyCookieAuth");
+
+        // Arahkan pengguna kembali ke halaman login
+        return RedirectToAction("Login", "Account");
     }
 }
