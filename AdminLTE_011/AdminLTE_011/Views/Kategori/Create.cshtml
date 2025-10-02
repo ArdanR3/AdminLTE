@@ -1,0 +1,54 @@
+﻿@model AdminLTE_011.Models.Kategori
+
+@{
+    ViewData["Title"] = "Tambah Kategori";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // <-- TAMBAHKAN BARIS INI
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Tambah Kategori Baru</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div class="form-group">
+                        <label asp-for="Tipe" class="control-label"></label>
+                        <select asp-for="Tipe" class="form-control">
+                            <option value="">-- Pilih Tipe --</option>
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Nama" class="control-label"></label>
+                        <input asp-for="Nama" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Deskripsi" class="control-label"></label>
+                        <textarea asp-for="Deskripsi" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control">
+                            <option value="Active">Active</option>
+                            <option value="Not Active">Not Active</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Simpan" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
