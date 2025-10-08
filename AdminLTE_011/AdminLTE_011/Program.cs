@@ -1,23 +1,40 @@
+// using statements untuk DbContext dan koneksi database
+using AdminLTE_011.Data;
+using Microsoft.EntityFrameworkCore;
+// using statement yang sudah ada
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Mendaftarkan semua layanan yang dibutuhkan
+// =======================================================
+// BAGIAN 1: Mendaftarkan semua layanan yang dibutuhkan
+// ======================================================
+
 builder.Services.AddControllersWithViews();
+
+// MENAMBAHKAN KONEKSI DATABASE (DbContext)
+// Kode ini membaca connection string dari appsettings.json
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Menambahkan dan mengkonfigurasi layanan otentikasi berbasis cookie
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";
-    options.LoginPath = "/Account/Login"; // Jika pengguna mencoba mengakses halaman yang butuh login, arahkan ke sini
+    options.LoginPath = "/Account/Login";
 });
 
 
-// 2. Membangun aplikasi
+// ===================================
+// BAGIAN 2: Membangun aplikasi
+// ===================================
 var app = builder.Build();
 
 
-// 3. Mengatur alur request (Middleware Pipeline)
+// ========================================================
+// BAGIAN 3: Mengatur alur request (Middleware Pipeline)
+// ========================================================
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -25,19 +42,21 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Mengizinkan akses ke file di wwwroot (CSS, JS, gambar)
+app.UseStaticFiles();
 
 app.UseRouting();
 
 // Urutan ini sangat penting:
-app.UseAuthentication(); // Memeriksa siapa pengguna (berdasarkan cookie)
-app.UseAuthorization();  // Memeriksa apa yang boleh dilakukan pengguna
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Mengatur rute default aplikasi
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); // Halaman utama adalah Home/Index
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-// 4. Menjalankan aplikasi
+// ===================================
+// BAGIAN 4: Menjalankan aplikasi
+// ===================================
 app.Run();

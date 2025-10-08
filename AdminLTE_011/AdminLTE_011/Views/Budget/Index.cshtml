@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AdminLTE_011.Models.Budget>
+
+@{
+    ViewData["Title"] = "Daftar Budget";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Master Budget</h1>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary float-sm-right" asp-action="Create">Tambah Budget Baru</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <table id="budgetTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Total Budget</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Nama</td>
+                                <td>@item.Kategori.Nama</td>
+                                <td>@item.TotalBudget.ToString("C")</td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Hapus</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $("#budgetTable").DataTable();
+        });
+    </script>
+}

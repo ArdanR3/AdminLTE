@@ -1,0 +1,90 @@
+﻿@model AdminLTE_011.Models.Budget
+
+@{
+    ViewData["Title"] = "Tambah Budget";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Tambah Budget Baru</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="KategoriId" class="control-label"></label>
+                        <select asp-for="KategoriId" class="form-control" asp-items="ViewBag.KategoriId">
+                            <option value="">-- Pilih Kategori --</option>
+                        </select>
+                        <span asp-validation-for="KategoriId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Nama" class="control-label"></label>
+                        <input asp-for="Nama" class="form-control" />
+                        <span asp-validation-for="Nama" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Deskripsi" class="control-label"></label>
+                        <textarea asp-for="Deskripsi" class="form-control"></textarea>
+                        <span asp-validation-for="Deskripsi" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalBudget" class="control-label"></label>
+                        <input asp-for="TotalBudget" class="form-control" type="number" step="any" />
+                        <span asp-validation-for="TotalBudget" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="StartDate" class="control-label"></label>
+                                <input asp-for="StartDate" class="form-control" type="date" />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="EndDate" class="control-label"></label>
+                                <input asp-for="EndDate" class="form-control" type="date" />
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsRepeat" /> @Html.DisplayNameFor(model => model.IsRepeat)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control">
+                            <option value="Active">Active</option>
+                            <option value="Not Active">Not Active</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Simpan" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
