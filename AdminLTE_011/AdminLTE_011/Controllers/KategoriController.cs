@@ -1,9 +1,9 @@
-﻿// Controllers/KategoriController.cs
-using AdminLTE_011.Data;
+﻿using AdminLTE_011.Data;
 using AdminLTE_011.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 [Authorize]
@@ -94,6 +94,7 @@ public class KategoriController : Controller
             _context.Kategori.Remove(kategori);
             await _context.SaveChangesAsync();
         }
+
         return RedirectToAction(nameof(Index));
     }
 }
