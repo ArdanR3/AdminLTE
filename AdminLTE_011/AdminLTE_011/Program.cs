@@ -1,29 +1,27 @@
-// using statements untuk DbContext dan koneksi database
 using AdminLTE_011.Data;
 using Microsoft.EntityFrameworkCore;
-// using statement yang sudah ada
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // =======================================================
-// BAGIAN 1: Mendaftarkan semua layanan yang dibutuhkan
-// ======================================================
+// BAGIAN 1: Mendaftarkan semua layanan
+// =======================================================
 
 builder.Services.AddControllersWithViews();
 
-// MENAMBAHKAN KONEKSI DATABASE (DbContext)
-// Kode ini membaca connection string dari appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-// Menambahkan dan mengkonfigurasi layanan otentikasi berbasis cookie
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";
     options.LoginPath = "/Account/Login";
 });
+
+// TAMBAHKAN DUA BARIS INI UNTUK SWAGGER
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 // ===================================
@@ -33,9 +31,17 @@ var app = builder.Build();
 
 
 // ========================================================
-// BAGIAN 3: Mengatur alur request (Middleware Pipeline)
+// BAGIAN 3: Mengatur alur request
 // ========================================================
-if (!app.Environment.IsDevelopment())
+
+// Configure the HTTP request pipeline.
+// Kita hanya menampilkan Swagger di environment Development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
@@ -46,11 +52,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Urutan ini sangat penting:
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Mengatur rute default aplikasi
+// Ubah MapControllerRoute menjadi MapControllers untuk API
+app.MapControllers();
+
+// Tambahkan lagi MapControllerRoute untuk MVC
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -11,12 +11,14 @@ namespace AdminLTE_011.Models
         [Required(ErrorMessage = "Kategori wajib dipilih.")]
         [Display(Name = "Kategori")]
         public int KategoriId { get; set; }
-    
+
+        // PASTIKAN PROPERTI INI ADA
+        public Kategori? Kategori { get; set; }
 
         [Required(ErrorMessage = "Nama wajib diisi.")]
-        public string Nama { get; set; } = null!; // Alternatif: Beri nilai awal
+        public string Nama { get; set; } = null!;
 
-        public string? Deskripsi { get; set; } // Tambah ?
+        public string? Deskripsi { get; set; }
 
         [Required(ErrorMessage = "Total Budget wajib diisi.")]
         [Display(Name = "Total Budget")]
@@ -37,6 +39,6 @@ namespace AdminLTE_011.Models
         public bool IsRepeat { get; set; }
 
         [Required(ErrorMessage = "Status wajib dipilih.")]
-        public string Status { get; set; } = null!; // Alternatif: Beri nilai awal
+        public string Status { get; set; } = null!;
     }
 }
